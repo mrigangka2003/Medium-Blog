@@ -1,3 +1,8 @@
+PandLinks.md  
+#---> just contain the string of prisma database connection pool and database connection string
+wrangler.toml
+
+
 # prod
 dist/
 
@@ -32,7 +37,3 @@ lerna-debug.log*
 # misc
 .DS_Store
 
-
-
-PandLinks.md
-wrangler.toml
