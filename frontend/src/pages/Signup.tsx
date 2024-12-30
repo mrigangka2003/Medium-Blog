@@ -1,10 +1,17 @@
-import { Quote } from "../components";
+import { Quote,Auth } from "../components";
 // type Props = {}
 
 const Signup = () => {
   return (
     <div>
-      <Quote />
+      <div className="grid grid-cols-1 lg:grid-cols-2">
+        <div>
+           <Auth type="signup"/>
+        </div>
+        <div className="hidden lg:block">
+          <Quote />
+        </div>
+      </div>
     </div>
   );
 };
