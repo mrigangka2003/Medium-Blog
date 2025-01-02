@@ -25,6 +25,17 @@ userRouter.post("/signup", async (c) => {
     })
   }
   try {
+
+    const existingUser = await prisma.user.findUnique({
+      where:{
+        username : body.username
+      }
+    })
+
+    if(existingUser){
+      c.status(409);
+      return c.json({message :"username already exists"})
+    }
     const user = await prisma.user.create({
       data: {
         username: body.username,
@@ -35,6 +46,7 @@ userRouter.post("/signup", async (c) => {
 
     if (!user) {
       c.status(403);
+      console.error() ;
       return c.json({
         message: "Something went wrong",
       });
@@ -76,7 +88,7 @@ userRouter.post("/signin", async(c) => {
   try {
     const user = await prisma.user.findUnique({
       where:{
-        username : body.email,
+        username : body.username,
         password : body.password 
       }
     })

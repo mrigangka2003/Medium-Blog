@@ -1,13 +1,37 @@
 import { ChangeEvent, useState } from "react";
-import { Link } from "react-router-dom";
-import { SignupInput } from "mrigangka-medium-common";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { BACKEND_URL } from "../config";
+import { SigninInput, SignupInput } from "mrigangka-medium-common";
 
 export const Auth = ({ type }: { type: "signin" | "signup" }) => {
-    const [postInputs, setPostInputs] = useState<SignupInput>({
-        username: "",
-        name: "",
-        password: "",
-    });
+    const navigate = useNavigate();
+
+    type AuthType = SigninInput | SignupInput;
+    const [postInputs, setPostInputs] = useState<AuthType>(
+        type === "signin"
+            ? { username: "", password: "" }
+            : { username: "", password: "", name: "" }
+    );
+
+    const sendRequest = async () => {
+        const typeUrl = type === "signin" ? "signin" : "signup";
+        try {
+            const response = await axios.post(
+                `${BACKEND_URL}/api/v1/user/${typeUrl}`,
+                postInputs
+            );
+            const jwt = response.data;
+            localStorage.setItem("token", jwt);
+            navigate("/blogs");
+        } catch (error:unknown) {
+            if (axios.isAxiosError(error) && error.response?.status === 409) {
+                alert("The Username is already registered.use something else !");
+            } else {
+                alert("Something went wrong, try again later!");
+            }
+        }
+    };
 
     return (
         <div className="h-screen flex flex-col justify-center">
@@ -15,26 +39,35 @@ export const Auth = ({ type }: { type: "signin" | "signup" }) => {
                 <div>
                     <div className="px-10">
                         <div className="text-3xl font-extrabold">
-                            Create an account
+                            {type === "signin"
+                                ? "Welcome Back!"
+                                : "Create an account"}
                         </div>
                         <div className="text-slate-400 ">
-                            {type === "signin"?"Don't have an account ?":"Already have an account?"}
-                            <Link to={ type==="signin"? "/signup":"/signin"} className="underline pl-2">
-                                {type==="signin"?"Sign up":"Sign in"}
+                            {type === "signin"
+                                ? "Don't have an account ?"
+                                : "Already have an account?"}
+                            <Link
+                                to={type === "signin" ? "/signup" : "/signin"}
+                                className="underline pl-2"
+                            >
+                                {type === "signin" ? "Sign up" : "Sign in"}
                             </Link>
                         </div>
                     </div>
                     <div className="mt-5">
-                        <LabelledInput
-                            label="Name"
-                            placeholder="Enter Your name"
-                            onChange={(e) => {
-                                setPostInputs((c) => ({
-                                    ...c,
-                                    name: e.target.value,
-                                }));
-                            }}
-                        />
+                        {type === "signup" ? (
+                            <LabelledInput
+                                label="Name"
+                                placeholder="Enter Your name"
+                                onChange={(e) => {
+                                    setPostInputs((c) => ({
+                                        ...c,
+                                        name: e.target.value,
+                                    }));
+                                }}
+                            />
+                        ) : null}
                         <LabelledInput
                             label="Username"
                             placeholder="Enter your Username"
@@ -56,7 +89,13 @@ export const Auth = ({ type }: { type: "signin" | "signup" }) => {
                                 }));
                             }}
                         />
-                        <button type="button" className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg w-full mt-4 text-sm px-5 py-2.5 me-2 mb-2">{type==="signin" ? "signin" :"signup"}</button>
+                        <button
+                            type="button"
+                            onClick={sendRequest}
+                            className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg w-full mt-4 text-sm px-5 py-2.5 me-2 mb-2"
+                        >
+                            {type === "signin" ? "Sign in" : "Sign up"}
+                        </button>
                     </div>
                 </div>
             </div>
