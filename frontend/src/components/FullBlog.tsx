@@ -2,6 +2,7 @@ import { Blog } from "../hooks";
 import { Avatar,Appbar } from "./index";
 
 export const FullBlog = ({ blog }: { blog: Blog }) => {
+  
   return (
     <div>
       <Appbar />
