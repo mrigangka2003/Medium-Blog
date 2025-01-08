@@ -1,5 +1,6 @@
 import { Avatar } from "./BlogCard";
 import { Link } from "react-router-dom";
+import { Logout } from "./Logout";
 
 export const Appbar = () => {
     return (
@@ -20,6 +21,7 @@ export const Appbar = () => {
                     </button>
                 </Link>
                 <Avatar name="Mrigangka" size="big" />
+                <Logout />
             </div>
         </div>
     );

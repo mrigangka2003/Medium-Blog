@@ -14,18 +14,11 @@ export const Blog = () => {
   if(loading || !blog){
     return <div>
       <Appbar/>
-        <div className="flex justify-center">
-          <div>
-          {/* <BlogSkeleton />
-          <BlogSkeleton />
-          <BlogSkeleton />
-          <BlogSkeleton />
-          <BlogSkeleton />
-          <BlogSkeleton />
-          <BlogSkeleton />
-          <BlogSkeleton /> */}
+        <div className="h-screen flex flex-col justify-center">
+          <div className="flex justify-center">
+
           </div>
-          
+            blog Details
         </div>
     </div>
   }

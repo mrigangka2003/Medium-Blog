@@ -5,6 +5,8 @@ import { Appbar } from "./Appbar";
 import { Avatar } from "./BlogCard";
 import { Circle } from "./BlogCard";
 import { FullBlog } from "./FullBlog";
+import { Spinner } from "./Spinner";
+import {Logout} from "./Logout";
 
 export {
     Quote,
@@ -13,5 +15,7 @@ export {
     Appbar,
     Avatar,
     Circle,
-    FullBlog
+    FullBlog,
+    Spinner,
+    Logout
 }
