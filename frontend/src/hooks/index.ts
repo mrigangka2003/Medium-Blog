@@ -37,7 +37,6 @@ export const useBlog = ({ id }: { id: string }) =>{
 export const useBlogs = () => {
     const [loading, setLoading] = useState(true);
     const [blogs, setBlogs] = useState<Blog[]>([]);
-    console.log(localStorage.getItem("token")) ;
 
     useEffect(() => {
         axios
